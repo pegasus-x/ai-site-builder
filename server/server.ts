@@ -10,7 +10,8 @@ import { stripeWebhook } from './controllers/stripeWebhook.js';
 
 const app = express();
 
-const port = 3000;
+// const port = 3000;
+const port = Number(process.env.PORT) || 3000;
 
 const corsOptions = {
     origin: process.env.TRUSTED_ORIGINS?.split(',') || [],
@@ -33,4 +34,5 @@ app.use('/api/project', projectRouter);
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
+
 });

@@ -16,7 +16,7 @@
 //     )
 
 // }
-import { AuthProvider } from "better-auth/react";
+import { AuthClientProvider } from "better-auth/react";
 import { AuthUIProvider } from "@daveyplate/better-auth-ui";
 import { authClient } from "@/lib/auth-client";
 import { useNavigate, NavLink } from "react-router-dom";
@@ -25,7 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
 
   return (
-    <AuthProvider client={authClient}>
+    <AuthClientProvider client={authClient}>
       <AuthUIProvider
         authClient={authClient}
         navigate={navigate}
@@ -33,6 +33,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
       >
         {children}
       </AuthUIProvider>
-    </AuthProvider>
+    </AuthClientProvider>
   );
 }

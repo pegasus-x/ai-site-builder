@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
-import { useSession } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 import { UserButton } from "@daveyplate/better-auth-ui";
 import api from "@/configs/axios";
 import { toast } from "sonner";
@@ -12,7 +12,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [credits, setCredits] = useState(0);
 
-  const { data: session, isPending } = useSession();
+  const { data: session, isPending } = authClient.useSession();
    const isLoggedIn = !isPending && session?.user;
   
 
@@ -177,6 +177,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
 

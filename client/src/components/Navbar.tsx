@@ -12,10 +12,9 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [credits, setCredits] = useState(0);
 
-  // const { data: session } = authClient.useSession();
-  const { data: session, isPending } = authClient.useSession();
-   // ⛔️ IMPORTANT: wait for session hydration
-  if (isPending) return null; // or loader
+   const { data: session, isPending } = authClient.useSession();
+   const isLoggedIn = !isPending && session?.user;
+  
 
   const getCredits = async () => {
     try {
@@ -79,7 +78,7 @@ const Navbar = () => {
 
         {/* <div className="hidden md:block space-x-3"> */}
         <div className="flex items-center gap-3">
-          {!session?.user ? (
+          /* {!isLoggedIn ? (
             <button
               onClick={() => navigate("/auth/signin")}
               className="px-6 py-1.5 max-sm:text-sm bg-indigo-600 active:scale-95 hover:bg-indigo-700 transition rounded"
@@ -103,7 +102,8 @@ const Navbar = () => {
               </button>
               <UserButton size="icon" />
             </>
-          )}
+          )} */
+          
 
           <button
             id="open-menu"
@@ -177,6 +177,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
 

@@ -12,7 +12,10 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [credits, setCredits] = useState(0);
 
-  const { data: session } = authClient.useSession();
+  // const { data: session } = authClient.useSession();
+  const { data: session, isPending } = authClient.useSession();
+   // ⛔️ IMPORTANT: wait for session hydration
+  if (isPending) return null; // or loader
 
   const getCredits = async () => {
     try {
@@ -50,6 +53,7 @@ const Navbar = () => {
       sessionStorage.removeItem("loginGreetingShown");
     }
   }, [session?.user]);
+  
 
   return (
     <>
@@ -173,3 +177,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

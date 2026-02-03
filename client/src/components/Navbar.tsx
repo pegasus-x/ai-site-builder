@@ -78,7 +78,7 @@ const Navbar = () => {
 
         {/* <div className="hidden md:block space-x-3"> */}
         <div className="flex items-center gap-3">
-          /* {!isLoggedIn ? (
+           {!isLoggedIn ? (
             <button
               onClick={() => navigate("/auth/signin")}
               className="px-6 py-1.5 max-sm:text-sm bg-indigo-600 active:scale-95 hover:bg-indigo-700 transition rounded"
@@ -102,7 +102,7 @@ const Navbar = () => {
               </button>
               <UserButton size="icon" />
             </>
-          )} */
+          )} 
           
 
           <button
@@ -177,6 +177,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
 

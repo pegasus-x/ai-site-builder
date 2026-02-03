@@ -12,7 +12,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [credits, setCredits] = useState(0);
 
-   const { data: session, isPending } = authClient.useSession();
+  const { data: session, isPending } = useSession();
    const isLoggedIn = !isPending && session?.user;
   
 
@@ -177,6 +177,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
 
 

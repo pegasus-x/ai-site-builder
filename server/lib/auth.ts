@@ -9,7 +9,7 @@ const trustedOrigins = process.env.TRUSTED_ORIGINS
   ? process.env.TRUSTED_ORIGINS.split(",")
       .map((origin) => origin.trim())
       .filter(Boolean)
-  : ["http://localhost:5173"];
+  : ["https://ai-site-builder-r1a4.onrender.com"];
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -21,7 +21,7 @@ export const auth = betterAuth({
 
     // ✅ Called when user requests "forgot password"
     sendResetPassword: async ({ user, token }) => {
-      const resetUrl = `http://localhost:5173/auth/reset-password?token=${token}`;
+      const resetUrl = `https://ai-site-builder-r1a4.onrender.com/auth/reset-password?token=${token}`;
 
       await sendEmail({
         to: user.email,
@@ -202,4 +202,5 @@ export const auth = betterAuth({
 //         }
 //       }
 //     }
+
 // }); 

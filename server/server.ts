@@ -7,32 +7,37 @@ import userRouter from './routes/userRoutes.js';
 import projectRouter from './routes/projectRoutes.js';
 import { stripeWebhook } from './controllers/stripeWebhook.js';
 
-
 const app = express();
-
-// const port = 3000;
 const port = Number(process.env.PORT) || 3000;
 
 const corsOptions = {
-    origin: process.env.TRUSTED_ORIGINS?.split(',') || [],
-    credentials: true,
-}; 
-app.use(cors(corsOptions))
-app.post('/api/stripe',express.raw({type: 'application/json'}), stripeWebhook)
+  origin: process.env.TRUSTED_ORIGINS?.split(',') || [],
+  credentials: true,
+};
 
+app.use(cors(corsOptions));
+
+app.post(
+  '/api/stripe',
+  express.raw({ type: 'application/json' }),
+  stripeWebhook
+);
 
 app.all('/api/auth/*', toNodeHandler(auth));
 
 app.use(express.json({ limit: '50mb' }));
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Server is Live!');
+  res.send('Server is Live!');
+});
+
+app.get('/health', (req: Request, res: Response) => {
+  res.status(200).json({ status: 'ok' });
 });
 
 app.use('/api/user', userRouter);
 app.use('/api/project', projectRouter);
 
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-
+  console.log(`Server is running on port ${port}`);
 });

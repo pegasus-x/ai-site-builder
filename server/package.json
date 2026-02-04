@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec tsx server.ts",
     "build": "prisma generate",
-    "start": "node dist/server.js"
+    "start": "tsx server.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",

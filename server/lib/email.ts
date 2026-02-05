@@ -1,26 +1,26 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.GMAIL_USER, 
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY as string);
 
 type SendEmailOptions = {
-  to: string;
+  to: string | string[];
   subject: string;
-  text?: string;
   html?: string;
+  text?: string;
 };
 
-export async function sendEmail({ to, subject, text, html }: SendEmailOptions) {
-  await transporter.sendMail({
-    from: `"AI-Site-Builder" <${process.env.GMAIL_USER}>`,
-    to,
-    subject,
-    text,
-    html,
-  });
+export async function sendEmail({
+  to,
+  subject,
+  html,
+  text,
+}: SendEmailOptions) {
+ return resend.emails.send({
+  from: "AI Site Builder <no-reply@aisitebuilder.site>",
+  to,
+  subject,
+  html,
+  text,
+} as any);
+
 }

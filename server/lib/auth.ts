@@ -21,7 +21,8 @@ export const auth = betterAuth({
 
     // ✅ Called when user requests "forgot password"
     sendResetPassword: async ({ user, token }) => {
-      const resetUrl = `https://ai-site-builder-r1a4.onrender.com/reset-password?token=${token}`;
+      const resetUrl = `https://ai-site-builder-r1a4.onrender.com/auth/reset-password?token=${token}`;
+
 
       await sendEmail({
         to: user.email,
@@ -204,4 +205,5 @@ export const auth = betterAuth({
 //     }
 
 // }); 
+
 

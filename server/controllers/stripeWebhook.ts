@@ -1,63 +1,126 @@
+// import { Request, Response } from "express";
+// import Stripe from "stripe";
+// import prisma from "../lib/prisma.js";
+
+// export const stripeWebhook = async (request: Request, response: Response) => {
+//   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+//   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+
+//   if (!endpointSecret) {
+//     return response.status(500).send("Webhook secret not configured");
+//   }
+
+//   const signature = request.headers["stripe-signature"] as string;
+//   let event: Stripe.Event;
+
+//   try {
+//     event = stripe.webhooks.constructEvent(
+//       request.body,
+//       signature,
+//       endpointSecret
+//     );
+//   } catch (err: any) {
+//     console.log("⚠️ Webhook signature verification failed.", err.message);
+//     return response.sendStatus(400);
+//   }
+
+//   switch (event.type) {
+//     case "payment_intent.succeeded": {
+//       const paymentIntent = event.data.object as Stripe.PaymentIntent;
+
+//       const sessionList = await stripe.checkout.sessions.list({
+//         payment_intent: paymentIntent.id,
+//       });
+
+//       const session = sessionList.data[0];
+//       if (!session || !session.metadata) break;
+
+//       const { transactionId, appId } = session.metadata as {
+//         transactionId: string;
+//         appId: string;
+//       };
+
+//       if (appId === "ai-site-builder" && transactionId) {
+//         const transaction = await prisma.transaction.update({
+//           where: { id: transactionId },
+//           data: { isPaid: true },
+//         });
+
+//         await prisma.user.update({
+//           where: { id: transaction.userId },
+//           data: { credits: { increment: transaction.credits } },
+//         });
+//       }
+
+//       break;
+//     }
+
+//     default:
+//       console.log(`Unhandled event type ${event.type}`);
+//   }
+
+//   response.json({ received: true });
+// };
 import { Request, Response } from "express";
 import Stripe from "stripe";
 import prisma from "../lib/prisma.js";
 
-export const stripeWebhook = async (request: Request, response: Response) => {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+export const stripeWebhook = async (req: Request, res: Response) => {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
-  if (!endpointSecret) {
-    return response.status(500).send("Webhook secret not configured");
-  }
-
-  const signature = request.headers["stripe-signature"] as string;
   let event: Stripe.Event;
 
   try {
     event = stripe.webhooks.constructEvent(
-      request.body,
-      signature,
+      req.body,
+      req.headers["stripe-signature"] as string,
       endpointSecret
     );
   } catch (err: any) {
-    console.log("⚠️ Webhook signature verification failed.", err.message);
-    return response.sendStatus(400);
+    console.error("❌ Stripe webhook signature failed:", err.message);
+    return res.status(400).send("Webhook Error");
   }
 
-  switch (event.type) {
-    case "payment_intent.succeeded": {
-      const paymentIntent = event.data.object as Stripe.PaymentIntent;
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
 
-      const sessionList = await stripe.checkout.sessions.list({
-        payment_intent: paymentIntent.id,
-      });
-
-      const session = sessionList.data[0];
-      if (!session || !session.metadata) break;
-
-      const { transactionId, appId } = session.metadata as {
-        transactionId: string;
-        appId: string;
-      };
-
-      if (appId === "ai-site-builder" && transactionId) {
-        const transaction = await prisma.transaction.update({
-          where: { id: transactionId },
-          data: { isPaid: true },
-        });
-
-        await prisma.user.update({
-          where: { id: transaction.userId },
-          data: { credits: { increment: transaction.credits } },
-        });
-      }
-
-      break;
+    if (!session.metadata) {
+      return res.json({ received: true });
     }
 
-    default:
-      console.log(`Unhandled event type ${event.type}`);
+    const { transactionId, appId } = session.metadata as {
+      transactionId: string;
+      appId: string;
+    };
+
+    // App-level guard
+    if (appId !== "ai-site-builder") {
+      return res.json({ received: true });
+    }
+
+    // 🔒 Idempotency guard
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: transactionId },
+    });
+
+    if (!transaction || transaction.isPaid) {
+      return res.json({ received: true });
+    }
+
+    await prisma.$transaction([
+      prisma.transaction.update({
+        where: { id: transactionId },
+        data: { isPaid: true },
+      }),
+      prisma.user.update({
+        where: { id: transaction.userId },
+        data: { credits: { increment: transaction.credits } },
+      }),
+    ]);
   }
 
-  response.json({ received: true });
+  res.json({ received: true });
 };
+
+

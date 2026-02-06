@@ -93,6 +93,58 @@ PostgreSQL (NeonDB)
 
 ---
 
+
+## 🛣️ Upcoming Features
+
+The following features are planned to enhance functionality, scalability, and user experience:
+
+- 💳 **Razorpay Payment Integration**
+  - Support for Indian users with UPI, Cards, Net Banking, and Wallets
+  - Seamless credit purchase using Razorpay
+  - Webhook-based payment verification
+
+- 🤖 **Multiple AI Model Support**
+  - Model selection at generation time
+  - Support for Gemini, Mistral, and other LLMs
+  - Smart fallback system when a model is unavailable
+
+- ⚡ **Faster Website Generation**
+  - Streaming AI responses
+  - Prompt optimization and caching
+  - Reduced generation latency on free-tier models
+
+- 📦 **Export & Download**
+  - Download generated websites as ZIP files
+  - Clean project structure for local hosting
+  - Framework-ready exports (React, static HTML)
+
+- 🌐 **Custom Domain Support**
+  - Connect user-owned domains
+  - SSL-enabled deployments
+  - Subdomain management
+
+- 👥 **Team & Collaboration**
+  - Invite team members to projects
+  - Role-based access control
+  - Shared credits and workspaces
+
+- 📊 **Usage Analytics**
+  - Track website generations and credit usage
+  - Performance insights for generated sites
+  - Admin-level dashboards
+
+- 🎨 **Advanced Customization**
+  - Theme editor (colors, fonts, layouts)
+  - Regenerate specific sections
+  - Manual code edits with live preview
+
+- 🧩 **Template Marketplace**
+  - Pre-built templates by category
+  - Community-contributed designs
+  - One-click customization
+
+---
+
 ## 🌍 Environment Variables
 
 ### Frontend
@@ -206,7 +258,8 @@ Ensure Stripe webhooks are correctly configured in production
 
 Credit updates occur only after successful Stripe payment confirmation
 
-Password reset uses secure, token-based email verification
+Password reset uses secure, token-based email verification.
+----
 
-## 🔧 Architecture Overview
+
 

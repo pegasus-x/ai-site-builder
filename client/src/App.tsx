@@ -12,14 +12,16 @@ import { Toaster} from "sonner";
 import AuthPage from "./pages/auth/AuthPage";
 import  Settings  from "./pages/Settings";
 import Loading from "./pages/Loading";
-import { trackPageView } from "./analytics.js";
+import { trackPageView } from "./analytics";
 
-// GA Tracking
- useEffect(() => {
-    trackPageView(pathname);
-  }, [pathname]);
 const App = () => {
   const { pathname } = useLocation();
+
+ // ✅ Correct place
+  useEffect(() => {
+    trackPageView(pathname);
+  }, [pathname]);
+
   const hideNavbar =
     (pathname.startsWith("/projects/") && pathname !== "/projects") ||
     pathname.startsWith("/view/") ||

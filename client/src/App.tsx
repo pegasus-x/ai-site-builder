@@ -1,4 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useEffect } from "react"; 
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Pricing from "./pages/Pricing";
@@ -11,6 +12,12 @@ import { Toaster} from "sonner";
 import AuthPage from "./pages/auth/AuthPage";
 import  Settings  from "./pages/Settings";
 import Loading from "./pages/Loading";
+import { trackPageView } from "./analytics";
+
+// GA Tracking
+ useEffect(() => {
+    trackPageView(pathname);
+  }, [pathname]);
 const App = () => {
   const { pathname } = useLocation();
   const hideNavbar =

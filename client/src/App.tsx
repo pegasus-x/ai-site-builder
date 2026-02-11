@@ -12,7 +12,7 @@ import { Toaster} from "sonner";
 import AuthPage from "./pages/auth/AuthPage";
 import  Settings  from "./pages/Settings";
 import Loading from "./pages/Loading";
-import { trackPageView } from "./analytics";
+import { trackPageView } from "./analytics.js";
 
 // GA Tracking
  useEffect(() => {

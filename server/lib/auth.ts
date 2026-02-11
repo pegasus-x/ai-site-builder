@@ -9,7 +9,11 @@ const trustedOrigins = process.env.TRUSTED_ORIGINS
   ? process.env.TRUSTED_ORIGINS.split(",")
       .map((origin) => origin.trim())
       .filter(Boolean)
-  : ["https://ai-site-builder-r1a4.onrender.com"];
+  : [
+      "https://aisitebuilder.site",
+      "https://www.aisitebuilder.site",
+      "https://ai-site-builder-r1a4.onrender.com",
+    ];;
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -21,7 +25,7 @@ export const auth = betterAuth({
 
     // ✅ Called when user requests "forgot password"
     sendResetPassword: async ({ user, token }) => {
-      const resetUrl = `https://ai-site-builder-r1a4.onrender.com/auth/reset-password?token=${token}`;
+      const resetUrl = `https://aisitebuilder.site/auth/reset-password?token=${token}`;
 
 
       await sendEmail({
@@ -205,5 +209,6 @@ export const auth = betterAuth({
 //     }
 
 // }); 
+
 
 

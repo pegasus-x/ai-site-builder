@@ -367,47 +367,52 @@ const Projects = () => {
     </div>
 
     {/* ===== BODY ===== */}
-    <div className="flex-1 flex relative overflow-hidden">
+<div className="flex-1 flex relative overflow-hidden">
 
-      {/* ===== SIDEBAR (ChatGPT Mobile Style) ===== */}
-      <div
-        className={`
-          fixed inset-y-0 left-0 z-50 w-72 bg-gray-900
-          transform transition-transform duration-300 ease-in-out
-          ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}
-          sm:static sm:translate-x-0 sm:transform-none sm:flex
-        `}
-      >
-        <div className="h-full w-full overflow-y-auto">
-          <Sidebar
-            isMenuOpen={isMenuOpen}
-            project={project}
-            setProject={(p) => setProject(p)}
-            isGenerating={isGenerating}
-            setIsGenerating={setIsGenerating}
-          />
-        </div>
-      </div>
-
-      {/* ===== BACKDROP (Mobile Only) ===== */}
-      {isMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 backdrop-blur-sm sm:hidden z-40"
-          onClick={() => setIsMenuOpen(false)}
-        />
-      )}
-
-      {/* ===== PREVIEW AREA ===== */}
-      <div className="flex-1 p-2 sm:pl-0 overflow-auto w-full">
-        <ProjectPreview
-          ref={previewRef}
+  {/* ===== SIDEBAR ===== */}
+  <div
+    className={`
+      bg-gray-900 w-72 border-r border-gray-800
+      transform transition-transform duration-300 ease-in-out
+      ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}
+      fixed inset-y-0 left-0 z-40
+      sm:static sm:translate-x-0 sm:transform-none sm:flex
+    `}
+  >
+    <div className="h-full flex flex-col w-full">
+      <div className="flex-1 overflow-y-auto">
+        <Sidebar
+          isMenuOpen={isMenuOpen}
           project={project}
+          setProject={(p) => setProject(p)}
           isGenerating={isGenerating}
-          device={device}
+          setIsGenerating={setIsGenerating}
         />
       </div>
     </div>
   </div>
+
+  {/* ===== BACKDROP (Mobile Only) ===== */}
+  {isMenuOpen && (
+    <div
+      className="fixed inset-0 bg-black/40 backdrop-blur-sm sm:hidden z-30"
+      onClick={() => setIsMenuOpen(false)}
+    />
+  )}
+
+  {/* ===== PREVIEW AREA ===== */}
+  <div className="flex-1 h-full overflow-auto bg-gray-900">
+    <div className="h-full p-2 sm:pl-0">
+      <ProjectPreview
+        ref={previewRef}
+        project={project}
+        isGenerating={isGenerating}
+        device={device}
+      />
+    </div>
+  </div>
+</div>
+
 ) : (
   <div className="flex items-center justify-center h-screen">
     <p className="text-2xl font-medium text-gray-200">
@@ -419,6 +424,7 @@ const Projects = () => {
 
 
 export default Projects;
+
 
 
 

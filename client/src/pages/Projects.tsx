@@ -412,8 +412,10 @@ const Projects = () => {
       Unable to load the project🫠
     </p>
   </div>
-);
+  );
+};
 
 
 export default Projects;
+
 

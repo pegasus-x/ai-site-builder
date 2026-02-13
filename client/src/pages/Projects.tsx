@@ -126,109 +126,258 @@ const Projects = () => {
     );
   }
 
+//   return project ? (
+//     <div className="flex flex-col h-screen w-full bg-gray-900 text-white">
+//       {/* {builder nav} */}
+//       <div className="flex max-sm:flex-col sm:items-center gap-4 px-4 py-2 no-scrollbar">
+//         {/* left col */}
+//         <div className="flex items-center gap-2 sm:min-w-90 text-nowrap">
+//           <img
+//             src="/favicon.svg"
+//             alt="logo"
+//             className="h-6 cursor-pointer"
+//             onClick={() => navigate("/")}
+//           />
+//           <div>
+//             <p className="text-sm text-medium capitalize truncate">
+//               {project.name}
+//             </p>
+//             <p className="text-xs text-gray-400 mt-0.5">
+//               Previewing last saved version
+//             </p>
+//           </div>
+//           <div className="sm:hidden flex-1 flex justify-end">
+//             {isMenuOpen ? (
+//               <MessageSquareIcon
+//                 onClick={() => setIsMenuOpen(false)}
+//                 className="size-6 cursor-pointer"
+//               />
+//             ) : (
+//               <XIcon
+//                 onClick={() => setIsMenuOpen(true)}
+//                 className="size-6 cursor-pointer"
+//               />
+//             )}
+//           </div>
+//         </div>
+//         {/* center col */}
+//         <div className="hidden sm:flex gap-2 bg-gray-950 p-1.5 rounded-md">
+//           <SmartphoneIcon
+//             onClick={() => setDevice("phone")}
+//             className={`size-6 p-1 rounded cursor-pointer ${
+//               device === "phone" ? "bg-gray-700" : ""
+//             }`}
+//           />
+//           <TabletIcon
+//             onClick={() => setDevice("tablet")}
+//             className={`size-6 p-1 rounded cursor-pointer ${
+//               device === "tablet" ? "bg-gray-700" : ""
+//             }`}
+//           />
+//           <LaptopIcon
+//             onClick={() => setDevice("desktop")}
+//             className={`size-6 p-1 rounded cursor-pointer ${
+//               device === "desktop" ? "bg-gray-700" : ""
+//             }`}
+//           />
+//         </div>
+//         {/* right col */}
+//         <div className="flex items-center justify-end gap-3 flex-1 text-xs sm:text-sm">
+//           <button
+//             onClick={saveProject}
+//             disabled={isSaving}
+//             className="max-sm:hidden bg-gray-800 hover:bg-gray-700 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors border border-gray-700"
+//           >
+//             {isSaving ? (
+//               <Loader2Icon className="animate-spin" size={16} />
+//             ) : (
+//               <SaveIcon size={16} />
+//             )}{" "}
+//             Save
+//           </button>
+//           <button
+//             onClick={(e) => {
+//               e.stopPropagation();
+//               window.open(`/preview/${projectId}`, "_blank");
+//             }}
+//             className="flex items-center gap-2 px-4 py-1 rounded sm:rounded-sm border border-gray-700 hover:border-gray-500 transition-colors"
+//           >
+//             <FullscreenIcon size={16} />
+//             Preview
+//           </button>
+
+//           {/* <Link target='_blank' to={`/preview/${projectId}`} className='flex items-center gap-2 px-4 py-1 rounded sm:rounded-sm border border-gray-700 hover:border-gray-500 transition-colors'>
+//            <FullscreenIcon size={16} /> Preview
+//          </Link> */}
+//           <button
+//             onClick={downloadCode}
+//             className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+//           >
+//             <ArrowBigDownDashIcon size={16} /> Download
+//           </button>
+//           <button
+//             onClick={togglePublish}
+//             className="bg-linear-to-br from-indigo-700 to-indigo-600 hover:from-indigo-600 hover:to-indigo-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
+//           >
+//             {project.isPublished ? (
+//               <EyeOffIcon size={16} />
+//             ) : (
+//               <EyeIcon size={16} />
+//             )}
+//             {project.isPublished ? "Unpublish" : "Publish"}
+//           </button>
+//         </div>
+//       </div>
+//       <div className="flex-1 flex overflow-auto">
+//         <Sidebar
+//           isMenuOpen={isMenuOpen}
+//           project={project}
+//           setProject={(p) => setProject(p)}
+//           isGenerating={isGenerating}
+//           setIsGenerating={setIsGenerating}
+//         />
+//         <div className="flex-1 p-2 pl-0">
+//           <ProjectPreview
+//             ref={previewRef}
+//             project={project}
+//             isGenerating={isGenerating}
+//             device={device}
+//           />
+//         </div>
+//       </div>
+//     </div>
+//   ) : (
+//     <div className="flex items-center justify-center h-screen">
+//       <p className="text-2xl font-medium text-gray-200">
+//         Unable to load the project🫠
+//       </p>
+//     </div>
+//   );
+// };
   return project ? (
-    <div className="flex flex-col h-screen w-full bg-gray-900 text-white">
-      {/* {builder nav} */}
-      <div className="flex max-sm:flex-col sm:items-center gap-4 px-4 py-2 no-scrollbar">
-        {/* left col */}
-        <div className="flex items-center gap-2 sm:min-w-90 text-nowrap">
+  <div className="flex flex-col h-screen w-full bg-gray-900 text-white overflow-hidden">
+    
+    {/* ===== Header ===== */}
+    <div className="flex flex-col sm:flex-row sm:items-center gap-3 px-3 sm:px-4 py-2 border-b border-gray-800">
+
+      {/* Left Section */}
+      <div className="flex items-center justify-between sm:justify-start gap-3 w-full sm:w-auto min-w-0">
+        <div className="flex items-center gap-2 min-w-0">
           <img
             src="/favicon.svg"
             alt="logo"
-            className="h-6 cursor-pointer"
+            className="h-6 cursor-pointer shrink-0"
             onClick={() => navigate("/")}
           />
-          <div>
-            <p className="text-sm text-medium capitalize truncate">
+          <div className="min-w-0">
+            <p className="text-sm font-medium capitalize truncate">
               {project.name}
             </p>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <p className="text-xs text-gray-400 truncate">
               Previewing last saved version
             </p>
           </div>
-          <div className="sm:hidden flex-1 flex justify-end">
-            {isMenuOpen ? (
-              <MessageSquareIcon
-                onClick={() => setIsMenuOpen(false)}
-                className="size-6 cursor-pointer"
-              />
-            ) : (
-              <XIcon
-                onClick={() => setIsMenuOpen(true)}
-                className="size-6 cursor-pointer"
-              />
-            )}
-          </div>
         </div>
-        {/* center col */}
-        <div className="hidden sm:flex gap-2 bg-gray-950 p-1.5 rounded-md">
-          <SmartphoneIcon
-            onClick={() => setDevice("phone")}
-            className={`size-6 p-1 rounded cursor-pointer ${
-              device === "phone" ? "bg-gray-700" : ""
-            }`}
-          />
-          <TabletIcon
-            onClick={() => setDevice("tablet")}
-            className={`size-6 p-1 rounded cursor-pointer ${
-              device === "tablet" ? "bg-gray-700" : ""
-            }`}
-          />
-          <LaptopIcon
-            onClick={() => setDevice("desktop")}
-            className={`size-6 p-1 rounded cursor-pointer ${
-              device === "desktop" ? "bg-gray-700" : ""
-            }`}
-          />
-        </div>
-        {/* right col */}
-        <div className="flex items-center justify-end gap-3 flex-1 text-xs sm:text-sm">
-          <button
-            onClick={saveProject}
-            disabled={isSaving}
-            className="max-sm:hidden bg-gray-800 hover:bg-gray-700 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors border border-gray-700"
-          >
-            {isSaving ? (
-              <Loader2Icon className="animate-spin" size={16} />
-            ) : (
-              <SaveIcon size={16} />
-            )}{" "}
-            Save
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              window.open(`/preview/${projectId}`, "_blank");
-            }}
-            className="flex items-center gap-2 px-4 py-1 rounded sm:rounded-sm border border-gray-700 hover:border-gray-500 transition-colors"
-          >
-            <FullscreenIcon size={16} />
-            Preview
-          </button>
 
-          {/* <Link target='_blank' to={`/preview/${projectId}`} className='flex items-center gap-2 px-4 py-1 rounded sm:rounded-sm border border-gray-700 hover:border-gray-500 transition-colors'>
-           <FullscreenIcon size={16} /> Preview
-         </Link> */}
-          <button
-            onClick={downloadCode}
-            className="bg-linear-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
-          >
-            <ArrowBigDownDashIcon size={16} /> Download
-          </button>
-          <button
-            onClick={togglePublish}
-            className="bg-linear-to-br from-indigo-700 to-indigo-600 hover:from-indigo-600 hover:to-indigo-500 text-white px-3.5 py-1 flex items-center gap-2 rounded sm:rounded-sm transition-colors"
-          >
-            {project.isPublished ? (
-              <EyeOffIcon size={16} />
-            ) : (
-              <EyeIcon size={16} />
-            )}
-            {project.isPublished ? "Unpublish" : "Publish"}
-          </button>
+        {/* Mobile Menu Toggle */}
+        <div className="sm:hidden">
+          {isMenuOpen ? (
+            <XIcon
+              onClick={() => setIsMenuOpen(false)}
+              className="size-6 cursor-pointer"
+            />
+          ) : (
+            <MessageSquareIcon
+              onClick={() => setIsMenuOpen(true)}
+              className="size-6 cursor-pointer"
+            />
+          )}
         </div>
       </div>
-      <div className="flex-1 flex overflow-auto">
+
+      {/* Device Switcher (Tablet + Desktop only) */}
+      <div className="hidden md:flex gap-2 bg-gray-950 p-1.5 rounded-md">
+        <SmartphoneIcon
+          onClick={() => setDevice("phone")}
+          className={`size-6 p-1 rounded cursor-pointer ${
+            device === "phone" ? "bg-gray-700" : ""
+          }`}
+        />
+        <TabletIcon
+          onClick={() => setDevice("tablet")}
+          className={`size-6 p-1 rounded cursor-pointer ${
+            device === "tablet" ? "bg-gray-700" : ""
+          }`}
+        />
+        <LaptopIcon
+          onClick={() => setDevice("desktop")}
+          className={`size-6 p-1 rounded cursor-pointer ${
+            device === "desktop" ? "bg-gray-700" : ""
+          }`}
+        />
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar sm:overflow-visible sm:flex-1 sm:justify-end text-xs sm:text-sm">
+
+        <button
+          onClick={saveProject}
+          disabled={isSaving}
+          className="bg-gray-800 hover:bg-gray-700 px-3 py-1 rounded border border-gray-700 flex items-center gap-1 whitespace-nowrap transition"
+        >
+          {isSaving ? (
+            <Loader2Icon className="animate-spin" size={14} />
+          ) : (
+            <SaveIcon size={14} />
+          )}
+          Save
+        </button>
+
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            window.open(`/preview/${projectId}`, "_blank");
+          }}
+          className="px-3 py-1 rounded border border-gray-700 hover:border-gray-500 flex items-center gap-1 whitespace-nowrap transition"
+        >
+          <FullscreenIcon size={14} />
+          Preview
+        </button>
+
+        <button
+          onClick={downloadCode}
+          className="bg-gradient-to-br from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 text-white px-3 py-1 rounded flex items-center gap-1 whitespace-nowrap transition"
+        >
+          <ArrowBigDownDashIcon size={14} />
+          Download
+        </button>
+
+        <button
+          onClick={togglePublish}
+          className="bg-gradient-to-br from-indigo-700 to-indigo-600 hover:from-indigo-600 hover:to-indigo-500 text-white px-3 py-1 rounded flex items-center gap-1 whitespace-nowrap transition"
+        >
+          {project.isPublished ? (
+            <EyeOffIcon size={14} />
+          ) : (
+            <EyeIcon size={14} />
+          )}
+          {project.isPublished ? "Unpublish" : "Publish"}
+        </button>
+      </div>
+    </div>
+
+    {/* ===== Body ===== */}
+    <div className="flex-1 flex relative overflow-hidden">
+
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed inset-y-0 left-0 z-40 w-72 bg-gray-900
+          transform transition-transform duration-300
+          ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}
+          sm:static sm:translate-x-0
+        `}
+      >
         <Sidebar
           isMenuOpen={isMenuOpen}
           project={project}
@@ -236,23 +385,35 @@ const Projects = () => {
           isGenerating={isGenerating}
           setIsGenerating={setIsGenerating}
         />
-        <div className="flex-1 p-2 pl-0">
-          <ProjectPreview
-            ref={previewRef}
-            project={project}
-            isGenerating={isGenerating}
-            device={device}
-          />
-        </div>
+      </div>
+
+      {/* Overlay for mobile */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 sm:hidden"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
+      {/* Preview */}
+      <div className="flex-1 p-2 sm:pl-0 overflow-auto">
+        <ProjectPreview
+          ref={previewRef}
+          project={project}
+          isGenerating={isGenerating}
+          device={device}
+        />
       </div>
     </div>
-  ) : (
-    <div className="flex items-center justify-center h-screen">
-      <p className="text-2xl font-medium text-gray-200">
-        Unable to load the project🫠
-      </p>
-    </div>
-  );
-};
+  </div>
+) : (
+  <div className="flex items-center justify-center h-screen">
+    <p className="text-2xl font-medium text-gray-200">
+      Unable to load the project🫠
+    </p>
+  </div>
+);
+
 
 export default Projects;
+

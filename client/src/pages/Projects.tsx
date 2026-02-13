@@ -254,14 +254,14 @@ const Projects = () => {
 //     </div>
 //   );
 // };
-  return project ? (
+ return project ? (
   <div className="flex flex-col h-screen w-full bg-gray-900 text-white overflow-hidden">
-    
-    {/* ===== Header ===== */}
+
+    {/* ===== HEADER ===== */}
     <div className="flex flex-col sm:flex-row sm:items-center gap-3 px-3 sm:px-4 py-2 border-b border-gray-800">
 
       {/* Left Section */}
-      <div className="flex items-center justify-between sm:justify-start gap-3 w-full sm:w-auto min-w-0">
+      <div className="flex items-center justify-between w-full sm:w-auto gap-3 min-w-0">
         <div className="flex items-center gap-2 min-w-0">
           <img
             src="/favicon.svg"
@@ -279,7 +279,7 @@ const Projects = () => {
           </div>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Chat Toggle (ChatGPT style) */}
         <div className="sm:hidden">
           {isMenuOpen ? (
             <XIcon
@@ -295,7 +295,7 @@ const Projects = () => {
         </div>
       </div>
 
-      {/* Device Switcher (Tablet + Desktop only) */}
+      {/* Device Switcher (Desktop only) */}
       <div className="hidden md:flex gap-2 bg-gray-950 p-1.5 rounded-md">
         <SmartphoneIcon
           onClick={() => setDevice("phone")}
@@ -366,37 +366,39 @@ const Projects = () => {
       </div>
     </div>
 
-    {/* ===== Body ===== */}
+    {/* ===== BODY ===== */}
     <div className="flex-1 flex relative overflow-hidden">
 
-      {/* Sidebar */}
+      {/* ===== SIDEBAR (ChatGPT Mobile Style) ===== */}
       <div
         className={`
-          fixed inset-y-0 left-0 z-40 w-72 bg-gray-900
-          transform transition-transform duration-300
+          fixed inset-y-0 left-0 z-50 w-72 bg-gray-900
+          transform transition-transform duration-300 ease-in-out
           ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}
-          sm:static sm:translate-x-0
+          sm:static sm:translate-x-0 sm:transform-none sm:flex
         `}
       >
-        <Sidebar
-          isMenuOpen={isMenuOpen}
-          project={project}
-          setProject={(p) => setProject(p)}
-          isGenerating={isGenerating}
-          setIsGenerating={setIsGenerating}
-        />
+        <div className="h-full w-full overflow-y-auto">
+          <Sidebar
+            isMenuOpen={isMenuOpen}
+            project={project}
+            setProject={(p) => setProject(p)}
+            isGenerating={isGenerating}
+            setIsGenerating={setIsGenerating}
+          />
+        </div>
       </div>
 
-      {/* Overlay for mobile */}
+      {/* ===== BACKDROP (Mobile Only) ===== */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black/40 sm:hidden"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm sm:hidden z-40"
           onClick={() => setIsMenuOpen(false)}
         />
       )}
 
-      {/* Preview */}
-      <div className="flex-1 p-2 sm:pl-0 overflow-auto">
+      {/* ===== PREVIEW AREA ===== */}
+      <div className="flex-1 p-2 sm:pl-0 overflow-auto w-full">
         <ProjectPreview
           ref={previewRef}
           project={project}
@@ -412,10 +414,11 @@ const Projects = () => {
       Unable to load the project🫠
     </p>
   </div>
-  );
+);
 };
 
 
 export default Projects;
+
 
 

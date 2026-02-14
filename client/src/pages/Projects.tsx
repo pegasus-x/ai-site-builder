@@ -230,7 +230,6 @@ const Projects = () => {
       </div>
       <div className="flex-1 flex overflow-auto">
         <Sidebar
-          isMenuOpen={isMenuOpen}
           project={project}
           setProject={(p) => setProject(p)}
           isGenerating={isGenerating}
@@ -256,6 +255,7 @@ const Projects = () => {
 };
 
 export default Projects;
+
 
 
 

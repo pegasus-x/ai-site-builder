@@ -7,14 +7,13 @@ import { toast } from 'sonner';
 
 
 interface SidebarProps {
-  isMenuOpen: boolean;
   project: Project,
   setProject: (project: Project) => void;
   isGenerating: boolean;
   setIsGenerating: (isGenerating: boolean) => void;
 }
 
-  const Sidebar = ({isMenuOpen,project, setProject,isGenerating,setIsGenerating}:SidebarProps) => {
+  const Sidebar = ({project, setProject,isGenerating,setIsGenerating}:SidebarProps) => {
 
   const messageRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState('');
@@ -321,3 +320,4 @@ interface SidebarProps {
 
 export default Sidebar
  
+

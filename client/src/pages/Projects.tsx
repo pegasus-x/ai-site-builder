@@ -160,27 +160,59 @@ const Projects = () => {
             )}
           </div>
         </div>
-        {/* center col */}
-        <div className="hidden sm:flex gap-2 bg-gray-950 p-1.5 rounded-md">
-          <SmartphoneIcon
-            onClick={() => setDevice("phone")}
-            className={`size-6 p-1 rounded cursor-pointer ${
-              device === "phone" ? "bg-gray-700" : ""
-            }`}
-          />
-          <TabletIcon
-            onClick={() => setDevice("tablet")}
-            className={`size-6 p-1 rounded cursor-pointer ${
-              device === "tablet" ? "bg-gray-700" : ""
-            }`}
-          />
-          <LaptopIcon
-            onClick={() => setDevice("desktop")}
-            className={`size-6 p-1 rounded cursor-pointer ${
-              device === "desktop" ? "bg-gray-700" : ""
-            }`}
-          />
-        </div>
+    {/* center col */}
+<div className="hidden sm:flex gap-2 bg-gray-950 p-1.5 rounded-md">
+
+  {/* Phone */}
+  <div className="relative group">
+    <SmartphoneIcon
+      onClick={() => setDevice("phone")}
+      className={`size-6 p-1 rounded cursor-pointer transition ${
+        device === "phone" ? "bg-gray-700" : "hover:bg-gray-800"
+      }`}
+    />
+    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 
+                     opacity-0 group-hover:opacity-100
+                     bg-gray-800 text-xs text-white px-2 py-1 rounded
+                     transition-all duration-200 pointer-events-none">
+      Phone
+    </span>
+  </div>
+
+  {/* Tablet */}
+  <div className="relative group">
+    <TabletIcon
+      onClick={() => setDevice("tablet")}
+      className={`size-6 p-1 rounded cursor-pointer transition ${
+        device === "tablet" ? "bg-gray-700" : "hover:bg-gray-800"
+      }`}
+    />
+    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 
+                     opacity-0 group-hover:opacity-100
+                     bg-gray-800 text-xs text-white px-2 py-1 rounded
+                     transition-all duration-200 pointer-events-none">
+      Tablet
+    </span>
+  </div>
+
+  {/* Desktop */}
+  <div className="relative group">
+    <LaptopIcon
+      onClick={() => setDevice("desktop")}
+      className={`size-6 p-1 rounded cursor-pointer transition ${
+        device === "desktop" ? "bg-gray-700" : "hover:bg-gray-800"
+      }`}
+    />
+    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 
+                     opacity-0 group-hover:opacity-100
+                     bg-gray-800 text-xs text-white px-2 py-1 rounded
+                     transition-all duration-200 pointer-events-none">
+      Desktop
+    </span>
+  </div>
+
+</div>
+
         {/* right col */}
         <div className="flex items-center justify-end gap-3 flex-1 text-xs sm:text-sm">
           <button
@@ -256,6 +288,7 @@ const Projects = () => {
 };
 
 export default Projects;
+
 
 
 

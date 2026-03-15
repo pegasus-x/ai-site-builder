@@ -6,8 +6,7 @@ The platform handles authentication, credits & billing, live previews, and deplo
 ---
 
 🔗 **Live App** : <br>
-Link 1:(https://aisitebuilder.site/) <br>
-Link 2: (https://ai-site-builder-r1a4.onrender.com/)
+Link : (https://aisitebuilder.site/) <br>
 ---
 
 ## 🚀 Features

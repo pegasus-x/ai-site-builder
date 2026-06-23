@@ -300,10 +300,10 @@ export const purchaseCredits = async (req: Request, res: Response) => {
             amount: number;
         }
 
-        const plans = {
-            basic: {credits: 100, amount: 5},
-            pro: {credits: 400, amount: 19},
-            enterprise: {credits: 1000, amount: 49}
+      const plans = {
+            basic: { credits: 100, amount: 49 },
+            pro: { credits: 400, amount: 99 },
+            enterprise: { credits: 1000, amount: 199 }
         };
 
         const userId = req.userId;
@@ -336,7 +336,7 @@ cancel_url: `${origin}`,
   line_items: [
     {
       price_data: {
-        currency: 'usd',
+        currency: 'inr',
         product_data: {
             name: `AiSiteBuilder - ${plan.credits} credits`,
         },

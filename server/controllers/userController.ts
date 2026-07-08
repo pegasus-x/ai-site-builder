@@ -89,7 +89,7 @@ export const createUserProject = async (req: Request, res: Response) => {
         //Enhace user prompt
 
         const promptEnhanceResponse = await openai.chat.completions.create({
-            model: 'qwen/qwen3-next-80b-a3b-instruct:free',
+            model: 'openai/gpt-oss-120b:free', 
             messages:[
                 {
                     role: 'system',
@@ -138,7 +138,7 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
 
         // Generate website code 
         const codeGenerationResponse = await openai.chat.completions.create({
-            model: 'qwen/qwen3-next-80b-a3b-instruct:free',
+            model: 'openai/gpt-oss-120b:free',
             messages:[
                 {
                     role: 'user',

@@ -206,15 +206,29 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
             }
         })
 
-    } catch (error : any) {
+    } catch (error: any) {
+    console.error(error);
+
+    if (userId) {
         await prisma.user.update({
-            where: {id:userId},
-            data: { credits: { increment: 5 }}
-        })           
-        
-        console.log(error);
-        res.status(500).json({ message: error.message });
+            where: { id: userId },
+            data: {
+                credits: {
+                    increment: 5,
+                },
+            },
+        }).catch(() => {});
     }
+
+    if (!res.headersSent) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+
+    return;
+}
 };
 
 // Controller function to get A Single User Project

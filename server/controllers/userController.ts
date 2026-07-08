@@ -1,7 +1,7 @@
 import{Request, Response} from 'express';
 import prisma from '../lib/prisma.js';
 import openai from '../configs/openai.js';
-import Stripe from 'stripe';
+import Stripe from 'stripe'; 
   
 
 //Get User Credits
@@ -28,23 +28,29 @@ export const createUserProject = async (req: Request, res: Response) => {
     try {
         const { initial_prompt } = req.body;
 
+      console.log("========== CREATE PROJECT START =========="); 
+      console.log("User ID:", userId);
+      console.log("Prompt:", initial_prompt);
+      console.log("API Key Loaded:", !!process.env.AI_API_KEY);
 
 
         if(!userId){
             return res.status(401).json({message: 'Unauthorized'});
 
         } 
+        console.log("✅ User authenticated");
 
         const user = await prisma.user.findUnique({
             where: {id: userId},
             select: {credits: true}
         });
-
+         
 
         if(!user || user.credits < 5){
             return res.status(403).json({message: 'Add credits to create more projects'});
         }
-        
+
+       console.log("✅ Credits verified:", user.credits);
         //Create a new project
         const project = await prisma.websiteProject.create({
             data: {
@@ -53,6 +59,7 @@ export const createUserProject = async (req: Request, res: Response) => {
                 userId
             }
         });
+      console.log("✅ Project created:", project.id);
 
         //Update User's Total Creation
 
@@ -73,9 +80,14 @@ export const createUserProject = async (req: Request, res: Response) => {
             where: {id: userId},
             data: {credits: { decrement: 5 }}
         })
+       console.log("✅ Credits deducted");
+      
+       console.log("📤 Sending Project ID to frontend");
         res.json({projectId: project.id});
 
+      console.log("🚀 Calling OpenRouter (Prompt Enhancement)...");
         //Enhace user prompt
+
         const promptEnhanceResponse = await openai.chat.completions.create({
             model: 'qwen/qwen3-next-80b-a3b-instruct:free',
             messages:[
@@ -103,6 +115,8 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
         }) 
 
         const enhancedPrompt = promptEnhanceResponse.choices[0].message.content; 
+      console.log("✅ Prompt Enhancement Completed");
+      console.log("Enhanced Prompt:", enhancedPrompt);
         //Store enhanced prompt in conversation
         await prisma.conversation.create({
             data:{
@@ -119,6 +133,8 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
                 projectId: project.id
             }
         })
+
+      console.log("🚀 Calling OpenRouter (Website Generation)...");
 
         // Generate website code 
         const codeGenerationResponse = await openai.chat.completions.create({
@@ -160,6 +176,8 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
         });    
           
         const code = codeGenerationResponse.choices[0].message.content || '';
+      console.log("✅ Website Generated");
+console.log("Generated HTML Length:", code.length);
 
           if(!code){
            await prisma.conversation.create({
@@ -176,7 +194,7 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
             return;
         }
 
-
+        console.log("💾 Saving Version...");
         // Create Version for the project
         const version = await prisma.version.create({
             data:{
@@ -205,8 +223,11 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
                 current_version_index: version.id
             }
         })
+      console.log("✅ Project Updated Successfully");
+     console.log("========== CREATE PROJECT END ==========");
 
     } catch (error: any) {
+    console.error("❌ CREATE PROJECT ERROR");
     console.error(error);
 
     if (userId) {

@@ -139,6 +139,7 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
         // Generate website code 
         const codeGenerationResponse = await openai.chat.completions.create({
             model: 'openai/gpt-oss-120b:free',
+          
             messages:[
                 {
                     role: 'user',
@@ -167,10 +168,6 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
     4. Do NOT include markdown, explanations, notes, or code fences.
 
     The HTML should be complete and ready to render as-is with Tailwind CSS.` 
-                }, 
-                {
-                    role: 'system',
-                    content:enhancedPrompt || ''
                 }
             ]  
         });    

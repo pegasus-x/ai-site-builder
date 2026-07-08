@@ -89,22 +89,25 @@ export const createUserProject = async (req: Request, res: Response) => {
         //Enhace user prompt
 
         const promptEnhanceResponse = await openai.chat.completions.create({
-            model: 'openai/gpt-oss-120b:free', 
+            model: 'google/gemma-4-31b-it:free', 
             messages:[
                 {
                     role: 'system',
                     content:`
-                    You are a prompt enhancement specialist. Take the user's website request and expand it into a detailed, comprehensive prompt that will help create the best possible website.
+                    You are a web design assistant.
 
-    Enhance this prompt by:
-    1. Adding specific design details (layout, color scheme, typography)
-    2. Specifying key sections and features
-    3. Describing the user experience and interactions
-    4. Including modern web design best practices
-    5. Mentioning responsive design requirements
-    6. Adding any missing but important elements
+Improve the user's website request into a concise, well-structured specification.
 
-Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3 paragraphs max).
+Include:
+- Design style
+- Color palette
+- Main sections
+- Important features
+- Responsive design
+
+Keep it under 150 words.
+
+Return only the enhanced prompt.
 ` 
                 },
                 {
@@ -138,36 +141,29 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
 
         // Generate website code 
         const codeGenerationResponse = await openai.chat.completions.create({
-            model: 'openai/gpt-oss-120b:free',
+            model: 'google/gemma-4-31b-it:free',
           
             messages:[
                 {
                     role: 'user',
                     content: `
-                    You are an expert web developer. Create a complete, production-ready, single-page website based on this request: "${enhancedPrompt}"
+                  You are an expert frontend developer.
 
-    CRITICAL REQUIREMENTS:
-    - You MUST output valid HTML ONLY. 
-    - Use Tailwind CSS for ALL styling
-    - Include this EXACT script in the <head>: <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    - Use Tailwind utility classes extensively for styling, animations, and responsiveness
-    - Make it fully functional and interactive with JavaScript in <script> tag before closing </body>
-    - Use modern, beautiful design with great UX using Tailwind classes
-    - Make it responsive using Tailwind responsive classes (sm:, md:, lg:, xl:)
-    - Use Tailwind animations and transitions (animate-*, transition-*)
-    - Include all necessary meta tags
-    - Use Google Fonts CDN if needed for custom fonts
-    - Use placeholder images from https://placehold.co/600x400
-    - Use Tailwind gradient classes for beautiful backgrounds
-    - Make sure all buttons, cards, and components use Tailwind styling
+Create a complete single-page website based on this request:
 
-    CRITICAL HARD RULES:
-    1. You MUST put ALL output ONLY into message.content.
-    2. You MUST NOT place anything in "reasoning", "analysis", "reasoning_details", or any hidden fields.
-    3. You MUST NOT include internal thoughts, explanations, analysis, comments, or markdown.
-    4. Do NOT include markdown, explanations, notes, or code fences.
+${enhancedPrompt}
 
-    The HTML should be complete and ready to render as-is with Tailwind CSS.` 
+Requirements:
+- Return ONLY valid HTML.
+- Use Tailwind CSS.
+- Include:
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+inside the <head>.
+- Make it responsive.
+- Use modern UI.
+- Add JavaScript inside a <script> tag if needed.
+- Use https://placehold.co/600x400 for placeholder images.
+- Do not use Markdown or code fences.` 
                 }
             ]  
         });    
